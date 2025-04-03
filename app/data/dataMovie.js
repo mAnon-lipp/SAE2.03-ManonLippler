@@ -11,12 +11,30 @@ let DataMovie = {};
  * Elle interroge le serveur via une requête HTTP avec le paramètre 'todo=readmovies'.
  */
 DataMovie.requestMovies = async function() {
-    // Envoie une requête HTTP au serveur pour récupérer les films
-    let answer = await fetch(HOST_URL + "/server/script.php?todo=getMovies");
-    // Extrait les données JSON de la réponse
-    let data = await answer.json();
-    // Retourne les données des films
-    return data;
+    try {
+        // Envoie une requête HTTP au serveur pour récupérer les films
+        let answer = await fetch(HOST_URL + "/server/script.php?todo=readmovies");
+
+        // Vérifie si la réponse est OK (status 200-299)
+        if (!answer.ok) {
+            throw new Error(`HTTP error! status: ${answer.status}`);
+        }
+
+        // Vérifie si la réponse contient du contenu
+        let text = await answer.text();
+        if (!text) {
+            throw new Error("Empty response from server");
+        }
+
+        // Tente de parser le contenu en JSON
+        let data = JSON.parse(text);
+
+        // Retourne les données des films
+        return data;
+    } catch (error) {
+        console.error("Error fetching movies:", error);
+        return null; // Ou gérez l'erreur selon vos besoins
+    }
 };
 
 export { DataMovie };

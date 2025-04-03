@@ -24,10 +24,15 @@ define("DBPWD", "lippler1");
  * @return array Un tableau contenant les informations nécessaires : titre, affiche et identifiant.
  */
 function getMovies() {
-    // Connexion à la base de données
-    $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
-    // Requête SQL pour récupérer les films
-    $sql = "SELECT id, name, image FROM Films";
-    $answer = $cnx->query($sql);
+    try {
+        $cnx = new PDO("mysql:host=" . HOST . ";dbname=" . DBNAME, DBLOGIN, DBPWD, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        ]);
+        $sql = "SELECT id, name, image FROM Movie";
+        $answer = $cnx->query($sql);
         return $answer->fetchAll(PDO::FETCH_OBJ);
+    } catch (Exception $e) {
+        error_log("Erreur SQL : " . $e->getMessage()); // Log dans les erreurs PHP
+        return false;
+    }
 }

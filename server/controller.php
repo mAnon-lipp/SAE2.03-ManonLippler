@@ -29,12 +29,6 @@ require("model.php");
  * @return mixed La liste des films si tout se passe bien, sinon false.
  */
 function readMoviesController() {
-    // Appel de la fonction getMovies déclarée dans model.php
-    $movies = getMovies();
-    // Vérifie si des films ont été récupérés
-    if (!empty($movies)) {
-        return $movies;
-    } else {
-        return false;
-    }
+    $movies = getMovie();
+    return $movies;
 }

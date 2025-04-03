@@ -26,13 +26,13 @@
           "Ceci est une base de projet pour la SAE2.03 édition 2025. Bonne chance !"
         );
       };
-      C.handlerMovie = async function () {
-        const movies = await DataMovie.getAll(); // Récupère les films
+      C.getMovies = async function () {
+        let data = await DataMovie.requestMovies(); // Récupère les films
         V.renderMovies(movies); // Affiche les films
       };
       C.start = function () {
         V.renderNavBar("C.handlerAbout()");
-        V.renderMovies("C.handlerMovie()");
+        C.getMovies();
       };
 
       // Vue (contient tout ce qui est relatif à l'affichage)

@@ -27,11 +27,7 @@ function getMovies() {
     // Connexion à la base de données
     $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
     // Requête SQL pour récupérer les films
-    $sql = "SELECT id, titre, affiche FROM Films";
-    // Prépare et exécute la requête SQL
-    $stmt = $cnx->prepare($sql);
-    $stmt->execute();
-    // Récupère les résultats sous forme d'objets
-    $res = $stmt->fetchAll(PDO::FETCH_OBJ);
-    return $res; // Retourne les résultats
+    $sql = "SELECT id, name, image FROM Films";
+    $answer = $cnx->query($sql);
+        return $answer->fetchAll(PDO::FETCH_OBJ);
 }
